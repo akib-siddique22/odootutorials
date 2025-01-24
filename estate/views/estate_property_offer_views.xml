@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="estate_property_offer_view_form" model="ir.ui.view">
+        <field name="name">estate.property.offer.form</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <div>
+                            <field name="partner_id"/>
+                        </div>
+                        <div></div>
+
+                        <div class="row">
+                        <group class="col">
+                            <field name="price"/>
+                            <field name="status"/>
+                        </group>
+                        <!-- <group class="col">
+                            <field name="expected_price"/>
+                            <field name="selling_price"/>
+                        </group> -->
+                        </div>
+                    </group>
+                    <!-- <notebook>
+                        <page string="Description">
+                        <group>
+                            <field name="description"/>
+                            <field name="property_type_id"/>
+                            <field name="bedrooms"/>
+                            <field name="living_area"/>
+                            <field name="facades"/>
+                            <field name="garage"/>
+                            <field name="garden"/>
+                            <field name="garden_area"/>
+                            <field name="garden_orientation"/>
+                            <field name="state"/>
+                            <field name="active"/>
+                        </group>
+                        </page>
+
+                        <page string="Other Info">
+                        <group>
+                            <field name="salesperson"/>
+                            <field name="buyer"/>
+                        </group>
+                        </page>
+                    </notebook> -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="estate_property_offer_view_list" model="ir.ui.view">
+        <field name="name">estate.property.offer.list</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="price"/>
+                <field name="partner_id"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>
