@@ -2,8 +2,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api,fields,models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from dateutil.relativedelta import relativedelta
+from odoo.tools.float_utils import float_compare, float_is_zero
+
+
 
 
 class EstateProperty(models.Model):
@@ -79,3 +82,15 @@ class EstateProperty(models.Model):
             else:
                 record.state = "canceled"
     
+    _sql_constraints = [
+        ('check_expected_price', 'CHECK(expected_price > 0)',
+         'Expected price must be strictly positive'),
+        ('check_selling_price', 'CHECK(selling_price >= 0)',
+         'Selling price must be positive')
+    ]
+
+    @api.constrains('expected_price', "selling_price")
+    def _check_90perc(self):
+        for record in self:
+            if (float_is_zero(record.selling_price, 2) == False) and (record.selling_price < 0.90*record.expected_price):
+                raise ValidationError("Selling price cannot be lower than 90% of the expected price.")
