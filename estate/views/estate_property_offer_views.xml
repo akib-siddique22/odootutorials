@@ -16,6 +16,8 @@
                         <group class="col">
                             <field name="price"/>
                             <field name="status"/>
+                            <field name ="validity"/>
+                            <field name ="date_deadline"/>
                         </group>
                         <!-- <group class="col">
                             <field name="expected_price"/>
@@ -59,6 +61,10 @@
             <list>
                 <field name="price"/>
                 <field name="partner_id"/>
+                <field name ="validity"/>
+                <field name ="date_deadline"/>
+                <button name="action_accept" type="object" icon="fa-check"/>
+                <button name="action_reject" type="object" icon="fa-times"/>
                 <field name="status"/>
             </list>
         </field>
