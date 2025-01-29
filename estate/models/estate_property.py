@@ -12,8 +12,10 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property"
+    _order = "id desc"
 
     name = fields.Char(required=True)
+    sequence = fields.Integer('Sequence', default=1, help="Used to order stages. Lower is better.")
     salesperson = fields.Many2one('res.users', string='Salesperson', index=True, default=lambda self: self.env.user)
     buyer = fields.Many2one('res.partner', string='Buyer', index=True, copy=False, readonly=True)
     description = fields.Text()
