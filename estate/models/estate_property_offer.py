@@ -10,6 +10,7 @@ from . import estate_property
 class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
     _description = "Property Offer"
+    _order = "price desc"
 
     price = fields.Float()
     create_date = fields.Datetime(default=fields.Datetime.now)
@@ -22,6 +23,7 @@ class EstatePropertyOffer(models.Model):
     date_deadline = fields.Date(compute="_compute_deadline", string="Deadline")
     partner_id = fields.Many2one("res.partner", string="Partner", required=True)
     property_id = fields.Many2one("estate.property", string="Property ID", required=True)
+    property_type_id = fields.Many2one("estate.property.type", related='property_id.property_type_id', string="Property Type", store=True)
 
     @api.depends('create_date', 'validity')
     def _compute_deadline(self):
@@ -39,6 +41,7 @@ class EstatePropertyOffer(models.Model):
                 self.property_id.sell_accepted = True
                 self.property_id.selling_price = self.price
                 self.property_id.buyer = self.partner_id.id
+                self.property_id.state = 'offer accepted'
                 record.status = 'accepted'
 
     def action_reject(self):
@@ -50,6 +53,7 @@ class EstatePropertyOffer(models.Model):
                 record.status = 'refused'
             else:
                 record.status = 'refused'
+    
 
     _sql_constraints = [  
         ('check_offer_price', 'CHECK(price > 0)',
