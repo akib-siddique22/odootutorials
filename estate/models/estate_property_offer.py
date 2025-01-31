@@ -3,6 +3,7 @@
 
 from odoo import fields, models, api
 #from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError, ValidationError
 from datetime import datetime, timedelta
 from . import estate_property
 
@@ -54,6 +55,17 @@ class EstatePropertyOffer(models.Model):
             else:
                 record.status = 'refused'
     
+    @api.model
+    def create(self, vals):
+        prop = self.env['estate.property'].browse(vals['property_id'])
+            
+        if vals.get('price') < prop.best_price:
+            raise UserError(
+                "The offer price is lower than an existing offer!"
+            )
+        if prop.state == 'new':
+            prop.state = 'offer received'
+        return super().create(vals)
 
     _sql_constraints = [  
         ('check_offer_price', 'CHECK(price > 0)',
